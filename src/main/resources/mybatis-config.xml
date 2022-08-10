@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 
+	자식태그는 다음 순서로 작성할것
+	Content Model : (properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, objectWrapperFactory?, 
+					reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?)
+ -->
+  <settings>
+  	<setting name="jdbcTypeForNull" value="NULL"/><!-- null데이터 전달시 그대로 null로 대입 -->
+  	<setting name="mapUnderscoreToCamelCase" value="true"/><!-- db컬럼명_랑 카멜케이스 변환해줌 -->
+  </settings>
+  
+  <typeAliases>
+  	<package name="com.kh.spring"/><!-- 패키지 하위는 전부 그냥 클래스명으로 별칭 등록-->
+  </typeAliases>
+  
+  
+  <typeHandlers>
+  	<!-- <typeHandler handler="com.kh.spring.common.typehandler.StringArrayTypeHandler"/> -->
+  	<package name="com.kh.spring.common.typehandler"/>
+  </typeHandlers>
+</configuration>
