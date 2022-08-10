@@ -32,7 +32,7 @@ div#demo-container{
 		<div class="form-group row">
 		  <label for="career" class="col-sm-2 col-form-label">개발경력</label>
 		  <div class="col-sm-10">
-		    <input type="number" class="form-control" id="career" name="career" value="${dev.career}" required>년
+		    <input type="number" class="form-control" id="career" name="career" value="${dev.career}" required>
 		  </div>
 		</div>
 		<div class="form-group row">
@@ -62,22 +62,23 @@ div#demo-container{
 			<% 
 				Dev dev = (Dev) request.getAttribute("dev");
 				List<String> langList = Arrays.asList(dev.getLang()); 
+				pageContext.setAttribute("langList", langList);
 			%>
 			<div class="col-sm-10">
 				<div class="form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" name="lang" id="Java" value="Java" <%= langList.contains("Java")? "checked" : "" %>>
+				  <input class="form-check-input" type="checkbox" name="lang" id="Java" value="Java" ${langList.contains("Java")? "checked" : ""}>
 				  <label class="form-check-label" for="Java">Java</label>
 				</div>
 				<div class="form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" name="lang" id="C" value="C" <%= langList.contains("C")? "checked" : "" %>>
+				  <input class="form-check-input" type="checkbox" name="lang" id="C" value="C" ${langList.contains("C")? "checked" : ""}>
 				  <label class="form-check-label" for="C">C</label>
 				</div>
 				<div class="form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" name="lang" id="Javascript" value="Javascript" <%= langList.contains("Javascript")? "checked" : "" %>> 
+				  <input class="form-check-input" type="checkbox" name="lang" id="Javascript" value="Javascript" ${langList.contains("Javascript")? "checked" : ""}> 
 				  <label class="form-check-label" for="Javascript">Javascript</label>
 				</div>
 				<div class="form-check form-check-inline">
-				  <input class="form-check-input" type="checkbox" name="lang" id="Python" value="Python" <%= langList.contains("Python")? "checked" : "" %>>
+				  <input class="form-check-input" type="checkbox" name="lang" id="Python" value="Python" ${langList.contains("Python")? "checked" : ""}>
 				  <label class="form-check-label" for="Python">Python</label>
 				</div>
 			</div>

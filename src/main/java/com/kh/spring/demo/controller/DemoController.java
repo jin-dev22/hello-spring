@@ -167,13 +167,13 @@ public class DemoController {
 		int result = demoService.updateDev(dev);
 		redirectAttr.addFlashAttribute("mag", "개발자 수정 성공");
 		
-		return "redirect:/";
+		return "redirect:/demo/devList.do";
 	}
 	
-	@RequestMapping(path="/deleteDev.do", method = RequestMethod.GET)
+	@RequestMapping(path="/deleteDev.do", method = RequestMethod.POST)
 	public String deleteDev(@RequestParam int no, RedirectAttributes redirectAttr) {
 		int result = demoService.deleteDev(no);
 		redirectAttr.addFlashAttribute("msg", "개발자 삭제 완료");
-		return "redirect:/";
+		return "redirect:/demo/devList.do";
 	}
 }
