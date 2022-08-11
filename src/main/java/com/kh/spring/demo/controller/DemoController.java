@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,6 +57,30 @@ import com.kh.spring.demo.model.service.DemoService;
  * 기타
  * MultipartFile : 업로드파일 처리 인터페이스. CommonsMultipartFile
  * RedirectAttributes : DML처리후 요청주소 변경을 위한 redirect시 속성처리 지원
+ *
+ *
+ * #Model이란 무엇인가
+ * - mvc의 model패키지 아님!!. view단에 데이터를 전달하기 위한 임시저장소 정도로 생각하기
+ * - Map객체임
+ * - 종류
+ * 	- ModelAndView
+ * 		: model기능 + view단 기능
+ * 		: model: addObject로 속성추가
+ * 		: view: setView(View)  | setViewName(String) 로 속성추가
+ * 	- ModelMap
+ * 		: model기능 : addAttribute로 속성추가
+ * 		: view없음. handler(컨트롤러의 메소드)에서 view정보를 문자열로 반환해줘야됨
+ * 	- Model
+ * 		: model기능 : addAttribute로 속성추가
+ * 		: view없음. handler(컨트롤러의 메소드)에서 view정보를 문자열로 반환해줘야됨
+ * - 관련 어노테이션
+ * 	@ModelAttribute
+ * 		- 메소드레벨에 작성한 경우   : 해당 controller의 전역 모델속성
+ * 		- 메소드 매개변수에 작성한 경우: 모델 속성에 대한 getter
+ * 	@SessionAttribute  : 메소드 매개변수에 작성, session scope에 저장된 속성에 대한 getter
+ *  @SessionAttributes : 클래스레벨에 작성, session scope에 저장된 속성명관리
+ *
+ *
  *</pre>
  */
 @Controller
@@ -66,6 +91,16 @@ public class DemoController {
 	
 	@Autowired
 	private DemoService demoService;
+	
+	/**
+	 * 공용으로 사용할 속성이 있다면 여기서 관리. 
+	 */
+	@ModelAttribute("common")
+	public void common(Model model) {
+		log.debug("@ModelAttribute - common 호출");
+		model.addAttribute("email", "admin@kh.com");
+		model.addAttribute("tell", "070-1234-1234");
+	}
 	
 	/**
 	 * handlerMethod: 사용자 요청을 처리하는 메소드 

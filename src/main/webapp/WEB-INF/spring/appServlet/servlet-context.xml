@@ -25,6 +25,17 @@
 	
 	<context:component-scan base-package="com.kh.spring" />
 	
-	
+	<!-- #8. interceptor 등록 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="logInterceptor" class="com.kh.spring.common.interceptor.LogInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/member/memberDetail.do"/>
+			<mapping path="/member/memberUpdate.do"/>
+			<beans:bean id="loginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

@@ -29,7 +29,7 @@ public class Member {
 	@NonNull
 	private String phone;
 	private String address;
-	private String hobby;
+	private String[] hobby;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private boolean enabled;

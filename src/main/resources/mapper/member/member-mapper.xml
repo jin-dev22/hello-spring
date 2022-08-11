@@ -20,4 +20,16 @@
   		default
   	) 	
   </insert>
+  
+  <select id="selectOneMember" resultType="Member">
+  	select * from member where member_id = #{memberId}
+  </select>
+  
+  <!-- <update id="updateMember">
+  	update member 
+  	set name = #{name}, gender = #{gender}, birthday = #{birthday}, 
+  		email = #{email}, phone = #{phone}, address = #{address}, 
+  		hobby = #{hobby}, updated_at = sysdate
+	where member_id = #{memberId}
+  </update> -->
 </mapper>

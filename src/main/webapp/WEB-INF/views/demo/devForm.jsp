@@ -15,6 +15,8 @@ div#demo-container{
 <div id="demo-container" 
 	 class="border border-secondary mx-auto p-3 rounded">
 	<!-- https://getbootstrap.com/docs/4.1/components/forms/#readonly-plain-text -->
+	${common.email}
+	${common.tell}
 	<form name="devFrm">
 		<div class="form-group row">
 		  <label for="name" class="col-sm-2 col-form-label">이름</label>
