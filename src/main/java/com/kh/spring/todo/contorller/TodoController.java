@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring.todo.model.dto.Todo;
@@ -32,14 +32,19 @@ public class TodoController {
 	 * 	- 인터페이스 구현체가 아닌 객체를 의존주입한 경우: cglib라이브러리에서 생성한 프록시 객체 사용
 	 */
 	@GetMapping("/todoList.do")
-	public void todoList(Model model) {
+	public ModelAndView todoList(ModelAndView mav) {
 		try {
 			//new todoServiceImpl();..?
 			log.debug("todoService = {}", todoService.getClass());//todoService = class com.sun.proxy.$Proxy95
 			
 			List<Todo> todoList = todoService.selectTodoList();
 			log.debug("todoList = {}", todoList);
-			model.addAttribute(todoList);			
+			mav.addObject(todoList);
+			
+			if(true)
+				throw new RuntimeException("메롱");
+			
+			return mav;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			throw e;
@@ -51,6 +56,9 @@ public class TodoController {
 		try {
 			int result = todoService.insertTodo(todo);
 			redirectAttr.addFlashAttribute("msg", "할일이 추가됨");
+
+			if(true)
+				throw new RuntimeException("으아아아");
 			
 			return "redirect:/todo/todoList.do";
 		} catch (Exception e) {
