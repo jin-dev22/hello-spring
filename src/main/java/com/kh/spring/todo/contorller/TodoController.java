@@ -33,51 +33,30 @@ public class TodoController {
 	 */
 	@GetMapping("/todoList.do")
 	public ModelAndView todoList(ModelAndView mav) {
-		try {
-			//new todoServiceImpl();..?
-			log.debug("todoService = {}", todoService.getClass());//todoService = class com.sun.proxy.$Proxy95
-			
-			List<Todo> todoList = todoService.selectTodoList();
-			log.debug("todoList = {}", todoList);
-			mav.addObject(todoList);
-			
-			if(true)
-				throw new RuntimeException("메롱");
-			
-			return mav;
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		//new todoServiceImpl();..?
+		log.debug("todoService = {}", todoService.getClass());//todoService = class com.sun.proxy.$Proxy95
+		
+		List<Todo> todoList = todoService.selectTodoList();
+		log.debug("todoList = {}", todoList);
+		mav.addObject(todoList);
+		
+		return mav;
 	}
 	
 	@PostMapping("/insertTodo.do")
 	public String insertTodo(Todo todo, RedirectAttributes redirectAttr) {
-		try {
-			int result = todoService.insertTodo(todo);
-			redirectAttr.addFlashAttribute("msg", "할일이 추가됨");
-
-			if(true)
-				throw new RuntimeException("으아아아");
-			
-			return "redirect:/todo/todoList.do";
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		int result = todoService.insertTodo(todo);
+		redirectAttr.addFlashAttribute("msg", "할일이 추가됨");
+		
+		return "redirect:/todo/todoList.do";
 	}
 	
 	@PostMapping("/updateTodo.do")
 	public String updateTodo(@RequestParam int no, @RequestParam boolean isCompleted) {
-		try {
-			Map<String, Object> param = new HashMap<>();
-			param.put("no", no);
-			param.put("isCompleted", isCompleted);
-			int result = todoService.updateTodo(param);
-			return "redirect:/todo/todoList.do";
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		Map<String, Object> param = new HashMap<>();
+		param.put("no", no);
+		param.put("isCompleted", isCompleted);
+		int result = todoService.updateTodo(param);
+		return "redirect:/todo/todoList.do";
 	}
 }
