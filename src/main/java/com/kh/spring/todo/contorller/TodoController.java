@@ -25,9 +25,18 @@ public class TodoController {
 	@Autowired
 	private TodoService todoService;
 	
+	/**
+	 * AOP에서 사용하는 Proxy객체
+	 * : 2가지 경우로 나뉨
+	 * 	- 인터페이스 구현객체를 의존주입한 경우: jdk 동적 proxy객체 사용 class com.sun.proxy.$Proxy180
+	 * 	- 인터페이스 구현체가 아닌 객체를 의존주입한 경우: cglib라이브러리에서 생성한 프록시 객체 사용
+	 */
 	@GetMapping("/todoList.do")
 	public void todoList(Model model) {
 		try {
+			//new todoServiceImpl();..?
+			log.debug("todoService = {}", todoService.getClass());//todoService = class com.sun.proxy.$Proxy95
+			
 			List<Todo> todoList = todoService.selectTodoList();
 			log.debug("todoList = {}", todoList);
 			model.addAttribute(todoList);			

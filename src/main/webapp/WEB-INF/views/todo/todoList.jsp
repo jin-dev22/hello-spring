@@ -72,6 +72,7 @@ div#todo-container{width:60%; margin:0 auto;text-align:center;}
 			frm.no.value = value;
 			frm.isCompleted.value = checked;
 			frm.submit();
+			
 		});
 	});
 </script>

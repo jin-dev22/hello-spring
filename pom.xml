@@ -36,11 +36,11 @@
 		</dependency>
 			
 		<!-- 08/03자동 리로드 라이브러리 https://mvnrepository.com/artifact/org.springframework/springloaded -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>springloaded</artifactId>
 		    <version>1.2.8.RELEASE</version>
-		</dependency>
+		</dependency> -->
 		
 		
 		<!-- AspectJ -->
@@ -48,7 +48,13 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
+		</dependency>
+		<!-- #9. AOP관련 의존 추가 -->
+	    <dependency>
+	        <groupId>org.aspectj</groupId>
+	        <artifactId>aspectjweaver</artifactId>
+	        <version>${org.aspectj-version}</version>
+	    </dependency>	
 		
 		<!-- Logging -->
 		<dependency>
