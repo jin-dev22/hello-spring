@@ -21,6 +21,30 @@ input#btn-add{float:right; margin: 0 0 15px;}
 			<th>첨부파일</th> <!-- 첨부파일 있을 경우, /resources/images/file.png 표시 width: 16px-->
 			<th>조회수</th>
 		</tr>
+		<c:if test="${empty list}">
+			<tr>
+				<td colspan="6" class="text-center">조회결과가 없습니다.</td>
+			</tr>
+		</c:if>
+		<c:if test="${not empty list}">
+			<c:forEach items="${list}" var="board">
+				<tr>
+					<td>${board.no}</td>
+					<td>${board.title}</td>
+					<td>${board.memberId}</td>
+					<td>
+						<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+						<fmt:formatDate value="${createdAt}" pattern="MM-dd HH:mm"/>
+					</td>
+					<td>
+						<c:if test="${board.attachCount gt 0}">
+							<img src="${pageContext.request.contextPath}/resources/images/file.png" width="16px" />
+						</c:if>
+					</td>
+					<td>${board.readCount}</td>
+				</tr>
+			</c:forEach>
+		</c:if>
 	</table>
 </section> 
 

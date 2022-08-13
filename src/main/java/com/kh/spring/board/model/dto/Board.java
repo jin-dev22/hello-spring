@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 //@AllArgsConstructor //롬복의 한계. 부모 클래스 필드는 못 가져옴
+@ToString(callSuper = true)
 public class Board extends BoardEntity {
 	private int attachCount;
 
