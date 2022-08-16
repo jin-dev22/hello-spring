@@ -8,5 +8,9 @@ import com.kh.spring.board.model.dto.Board;
 public interface BoardService {
 
 	List<Board> selectBoardList(Map<String, Integer> param);
+
+	int getTotalContent();
+
+	int insertBoard(Board board);
 	
 }

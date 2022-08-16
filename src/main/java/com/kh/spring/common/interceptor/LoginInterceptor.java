@@ -26,7 +26,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			FlashMapManager manager = RequestContextUtils.getFlashMapManager(request);
 			manager.saveOutputFlashMap(flashMap, request, response);
 			
-			response.sendRedirect(request.getContextPath()+"/");
+			response.sendRedirect(request.getContextPath()+"/member/memberLogin.do");
 			return false;
 		}
 		
