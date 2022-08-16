@@ -43,6 +43,7 @@
 	</interceptors>
 	
 	<!-- #9.1. aop관련 어노테이션 등록처리 -->
+	<!-- #11.2. root-context의 트랜잭션 관련 처리를 가져와 servlet-context에 적용 -->
 	<aop:aspectj-autoproxy/>
 	
 	<!-- #10.1 multipartResover 등록 -->

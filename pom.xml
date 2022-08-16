@@ -50,6 +50,7 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>
 		<!-- #9. AOP관련 의존 추가 -->
+		<!-- #11. 트랜잭션처리 의존 -->
 	    <dependency>
 	        <groupId>org.aspectj</groupId>
 	        <artifactId>aspectjweaver</artifactId>

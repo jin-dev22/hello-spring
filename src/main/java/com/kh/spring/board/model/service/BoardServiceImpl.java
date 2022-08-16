@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.spring.board.model.dao.BoardDao;
 import com.kh.spring.board.model.dto.Attachment;
@@ -13,6 +14,7 @@ import com.kh.spring.board.model.dto.Board;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Transactional(rollbackFor = Exception.class)//롤백기준이 될 예외종류 - 그냥 클래스 레벨에 작성하기
 @Service
 @Slf4j
 public class BoardServiceImpl implements BoardService {
@@ -35,6 +37,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getTotalContent();
 	}
 	
+//	@Transactional(rollbackFor = Exception.class)//롤백기준이 될 예외종류
 	@Override
 	public int insertBoard(Board board) {
 		//insert board
