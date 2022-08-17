@@ -14,7 +14,7 @@ import com.kh.spring.board.model.dto.Board;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional(rollbackFor = Exception.class)//롤백기준이 될 예외종류 - 그냥 클래스 레벨에 작성하기
+@Transactional(rollbackFor = Exception.class)//롤백기준이 될 예외종류 - 클래스 레벨에 작성하기. AOP로 처리됨
 @Service
 @Slf4j
 public class BoardServiceImpl implements BoardService {
@@ -55,5 +55,17 @@ public class BoardServiceImpl implements BoardService {
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	public Board selectOneBoard(int no) {
+		//Board 조회
+		Board board = boardDao.selectOneBoard(no);
+		log.debug("board b4 attach ={}",board);
+		//List<Attachment> 조회
+		List<Attachment> attachments = boardDao.selectAttachmentListByBoardNo(no);
+		board.setAttachments(attachments);
+		log.debug("board aft attach = {}", board);
+		return board;
 	}
 }

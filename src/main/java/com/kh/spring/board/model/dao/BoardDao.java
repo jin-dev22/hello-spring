@@ -26,4 +26,11 @@ public interface BoardDao {
 	@Insert("insert into attachment values(seq_attachment_no.nextval, #{boardNo}, #{originalFilename}, #{renamedFilename}, default, default)")
 	int insertAttachment(Attachment attach);
 
+	@Select("select * from board where no = #{no}")
+	Board selectOneBoard(int no);
+
+	@Select("select * from attachment where board_no = #{boardNo}")
+	List<Attachment> selectAttachmentListByBoardNo(int boardNo);
+
+	
 }

@@ -28,7 +28,7 @@ input#btn-add{float:right; margin: 0 0 15px;}
 		</c:if>
 		<c:if test="${not empty list}">
 			<c:forEach items="${list}" var="board">
-				<tr>
+				<tr data-no="${board.no}">
 					<td>${board.no}</td>
 					<td>${board.title}</td>
 					<td>${board.memberId}</td>
@@ -50,5 +50,17 @@ input#btn-add{float:right; margin: 0 0 15px;}
 		${pagebar}
 	</nav>
 </section> 
-
+<script>
+	document.querySelectorAll("tr[data-no]").forEach((tr)=>{
+		tr.addEventListener('click', (e)=>{
+			console.log(e.target);//td
+			const tr = e.target.parentElement;
+			const no = tr.dataset.no;
+			//console.log(no);
+			if(no){
+				location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no="+no;
+			}
+		});
+	});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

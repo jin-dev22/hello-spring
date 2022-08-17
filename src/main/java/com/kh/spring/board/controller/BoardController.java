@@ -87,10 +87,18 @@ public class BoardController {
 		log.debug("board = {}", board); 
 		
 		//업무로직: DB저장
-		int result = boardService.insertBoard(board);
+		int result = boardService.insertBoard(board);//insert board,attach는 트랜잭션으로 묶으려면 서비스단에서 insert처리해야 됨
 		
 		redirectAttr.addFlashAttribute("msg", "게시글 저장 성공");
 		
 		return "redirect:/board/boardList.do";
+	}
+	
+	@GetMapping("/boardDetail.do")
+	public void baordDetail(@RequestParam int no, Model model) {
+		//Board (+Attachment) 조회. 방법 2가지 있음
+		//1. 쿼리 2번 날리는 버전
+		Board board = boardService.selectOneBoard(no);
+		model.addAttribute("board", board);
 	}
 }

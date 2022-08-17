@@ -188,5 +188,5 @@ INSERT INTO ATTACHMENT VALUES(SEQ_ATTACHMENT_NO.NEXTVAL, 59, 'sun.jpg', '2020052
 
 COMMIT;
 
-select * from board;
+select * from board order by no desc;
 select * from attachment;
