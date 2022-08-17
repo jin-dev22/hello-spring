@@ -8,14 +8,20 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,6 +43,9 @@ public class BoardController {
 	//생명주기가 가장 긴 scope객체 ServletContext : 스프링 빈 관리하는 servlet-context와 무관.
 	@Autowired
 	ServletContext application;
+	
+	@Autowired
+	ResourceLoader resourceLoader;
 	
 	@GetMapping("/boardList.do")
 	public void boardList(@RequestParam(defaultValue = "1") int cPage, Model model, HttpServletRequest request) {
@@ -99,6 +108,41 @@ public class BoardController {
 		//Board (+Attachment) 조회. 방법 2가지 있음
 		//1. 쿼리 2번 날리는 버전
 		Board board = boardService.selectOneBoard(no);
+		log.debug("board = {}", board);
 		model.addAttribute("board", board);
+	}
+	
+	/**
+	 * Resource
+	 * 다음 구현체들의 추상화 레이어를 제공.
+	 * - 웹상 자원: 구현클래스=UrlResource
+	 * - classpath 자원: ClassPathResource
+	 * - 서버컴퓨터 자원: FileSystemResource
+	 * - ServletContext(web root)자원: ServletContextResource
+	 * - 입출력 자원: InputStreamResource
+	 * - 이진데이터 자원: ByteArrayResource
+	 * @throws IOException 
+	 * 
+	 * @ResponseBody: 핸들러의 반환된 자바객체를 응답메세지의 body에 직접 출력해줌
+	 */
+	@GetMapping(path="/fileDownload.do", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public Resource fileDownload(@RequestParam int no, HttpServletResponse response) throws IOException {
+		Attachment attach = boardService.selectOneAttachment(no);
+		log.debug("attach = {}", attach);
+		
+		String saveDirectory = application.getRealPath("/resources/upload/board");
+		File downFile = new File(saveDirectory, attach.getRenamedFilename());
+		String location = "file:" + downFile;//file: 리소스가 어떤 자원을 반환할지 인식하는 프로토콜 File#toString은 파일의 절대경로를 반환
+		Resource resource = resourceLoader.getResource(location);
+		log.debug("resource = {}", resource);
+		log.debug("resource#file = {}", resource.getFile());
+		
+		//응답헤더 작성
+		response.setContentType("application/octet-stream; charset=utf-8");
+		String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");//중간에 톰캣에 의해 전송되면서 깨지는거 방지
+		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
+		
+		return resource;
 	}
 }

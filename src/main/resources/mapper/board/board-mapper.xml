@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.spring.board.model.dao.BoardDao">
+  <select id="selectOneBoardCollection" resultMap="boardMap">
+  	select b.*, m.*, a.*, 
+        a.no attach_no,
+        a.board_no,
+        a.original_filename,
+        a.renamed_filename,
+        a.download_count,
+        a.created_at
+	from board b 
+	    left join member m
+	        on b.member_id = m.member_id
+	    left outer join attachment a
+	        on b.no = a.board_no
+	where b.no = #{no}
+  </select>
+  <resultMap type="board" id="boardMap">
+  	<!-- association, Collection 은 컬럼명 매핑 생략불가, 생략하면 아에 값 대입안해줌 -->
+  	<id column="no" property="no"/>
+  	<result column="title" property="title"/>
+  	<result column="member_id" property="memberId"/>
+  	<result column="content" property="content"/>
+  	<result column="read_count" property="readCount"/>
+  	<result column="created_at" property="createdAt"/>
+  	<result column="updated_at" property="updatedAt"/>
+  	<association property="member" javaType="member">
+  		<id column="member_id" property="memberId"/>
+  		<result column="name" property="name"/>
+  	</association>
+  	<collection property="attachments" ofType="attachment">
+  		<id column="attach_no" property="no"/>
+  		<result column="board_no" property="boardNo"/>
+  		<result column="original_filename" property="originalFilename"/>
+  		<result column="renamed_filename" property="renamedFilename"/>
+  		<result column="download_count" property="downloadCount"/>
+  		<result column="created_at" property="createdAt"/>
+  	</collection>
+  </resultMap>
+</mapper>

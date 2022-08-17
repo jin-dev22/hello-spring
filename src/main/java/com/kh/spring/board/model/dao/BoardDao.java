@@ -33,4 +33,10 @@ public interface BoardDao {
 	List<Attachment> selectAttachmentListByBoardNo(int boardNo);
 
 	
+	Board selectOneBoardCollection(int no);
+
+	@Select("select * from attachment where no = #{nooooo}")//값이 하나일경우 값 이상하게 적어도 알아서 찾아줌
+	Attachment selectOneAttachment(int no);
+
+	
 }

@@ -19,13 +19,14 @@ div#board-container label.custom-file-label{text-align:left;}
 		   value="${board.title}" required>
 	<input type="text" class="form-control" 
 		   name="memberId" 
-		   value="${board.memberId}" readonly required>
+		   value="${board.member.name}" readonly required>
 
 	<c:if test="${not empty board.attachments}">
-		<c:forEach items="${board.attachments}" var="attach">
+		<c:forEach items="${board.attachments}" var="attach" varStatus="vs">
 			<button type="button" 
-					class="btn btn-outline-success btn-block">
-					첨부파일-${attach.originalFilename}	
+					class="btn btn-outline-success btn-block"
+					onclick="location.href='${pageContext.request.contextPath}/board/fileDownload.do?no=${attach.no}';">
+					첨부파일${vs.count} - ${attach.originalFilename}	
 			</button>
 		</c:forEach>
 	</c:if> 
