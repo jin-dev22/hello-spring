@@ -114,7 +114,7 @@ public class BoardController {
 	
 	/**
 	 * Resource
-	 * 다음 구현체들의 추상화 레이어를 제공.
+	 * 다음 구현체들의 추상화 레이어를 제공.(PSA)
 	 * - 웹상 자원: 구현클래스=UrlResource
 	 * - classpath 자원: ClassPathResource
 	 * - 서버컴퓨터 자원: FileSystemResource
@@ -143,6 +143,25 @@ public class BoardController {
 		String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");//중간에 톰캣에 의해 전송되면서 깨지는거 방지
 		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
 		
-		return resource;
+		return resource;//객체를 리턴하면 ResponseBody가 이 반환값을 body에 써줌. 이전jsp,서블릿만사용했을때 코드랑 비교해보기 
+	}
+	
+	@GetMapping("/boardUpdate.do")
+	public void boardUpdate(@RequestParam int no, Model model) {
+		Board board = boardService.selectOneBoard(no);
+		model.addAttribute("board", board);
+	}
+	
+	/**
+	 * @실습문제
+	 * - 게시글 수정
+	 * - 첨부파일 삭제(실제파일삭제, DB attachment 행 제거)
+	 * - 첨부파일 추가
+	 */
+	@PostMapping("/boardUpdate.do")
+	public String boardUpdate() {
+		
+		
+		return "redirect:/board/boardDetail.do";
 	}
 }

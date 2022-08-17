@@ -190,3 +190,17 @@ COMMIT;
 
 select * from board order by no desc;
 select * from attachment;
+
+select b.*, m.*, a.*, 
+        a.no attach_no,--board와 attach의no 컬럼명이 같으므로 attach는 다 써주기
+        a.board_no,
+        a.original_filename,
+        a.renamed_filename,
+        a.download_count,
+        a.created_at
+from board b 
+    left join member m
+        on b.member_id = m.member_id
+    left outer join attachment a--inner조인으로 하면 첨부파일 없는 행이 빠져버림. inner는 안된다.  
+        on b.no = a.board_no
+where b.no = 61;      

@@ -19,7 +19,7 @@
 	where b.no = #{no}
   </select>
   <resultMap type="board" id="boardMap">
-  	<!-- association, Collection 은 컬럼명 매핑 생략불가, 생략하면 아에 값 대입안해줌 -->
+  	<!-- association, Collection 은 컬럼명 매핑(id, result) 생략불가, 생략하면 아에 값 대입안해줌 -->
   	<id column="no" property="no"/>
   	<result column="title" property="title"/>
   	<result column="member_id" property="memberId"/>
@@ -37,7 +37,7 @@
   		<result column="original_filename" property="originalFilename"/>
   		<result column="renamed_filename" property="renamedFilename"/>
   		<result column="download_count" property="downloadCount"/>
-  		<result column="created_at" property="createdAt"/>
+  		<result column="attach_created_at" property="createdAt"/>
   	</collection>
   </resultMap>
 </mapper>

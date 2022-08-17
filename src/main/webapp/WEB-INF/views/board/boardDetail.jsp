@@ -37,5 +37,9 @@ div#board-container label.custom-file-label{text-align:left;}
 		   value="${board.readCount}" readonly>
 	<input type="datetime-local" class="form-control" name="created_at" 
 		   value='${board.createdAt}'>
+	<c:if test="${loginMember.memberId eq board.memberId}">
+	   	<button type="button" class="btn btn-outline-primary btn-block"
+	   		onClick="location.href='${pageContext.request.contextPath}/board/boardUpdate.do?no=${board.no}';">수정</button>
+	</c:if>
 </div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

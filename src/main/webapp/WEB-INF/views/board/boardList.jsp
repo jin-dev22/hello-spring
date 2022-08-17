@@ -9,6 +9,7 @@
 <style>
 /*글쓰기버튼*/
 input#btn-add{float:right; margin: 0 0 15px;}
+tr[date-no] {cursor: pointer;}
 </style>
 <section id="board-container" class="container">
 	<input type="button" value="글쓰기" id="btn-add" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/board/boardForm.do';"/>
