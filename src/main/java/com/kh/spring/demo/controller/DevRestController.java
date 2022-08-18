@@ -68,20 +68,12 @@ public class DevRestController {
 	@GetMapping("/lang/{lang}")
 	public ResponseEntity<?> dev(@PathVariable String lang){
 		log.debug("lang = {}", lang);
-		lang = lang.toLowerCase();
 		
 		List<Dev> devList = demoService.selectDevList();
 		List<Dev> resultList = new ArrayList<>();
 		for(Dev dev : devList) {
-			List<String> langList = new ArrayList() {
-				{
-					for(String _lang : dev.getLang()) {
-						add(_lang.toLowerCase());
-					}
-				}
-			};
-			log.debug("{}", langList);
-			if(langList.contains(lang)) {
+			List<String> langList = Arrays.asList(dev.getLang());
+			if(containsIgnoreCase(langList, lang)) {
 				resultList.add(dev);
 			}
 		}
@@ -89,5 +81,14 @@ public class DevRestController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		return ResponseEntity.ok(resultList);
+	}
+
+	private boolean containsIgnoreCase(List<String> strList, String str) {
+		for(String s : strList) {
+			if(s != null && s.equalsIgnoreCase(str)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
