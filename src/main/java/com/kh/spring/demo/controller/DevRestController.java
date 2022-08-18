@@ -68,13 +68,20 @@ public class DevRestController {
 	@GetMapping("/lang/{lang}")
 	public ResponseEntity<?> dev(@PathVariable String lang){
 		log.debug("lang = {}", lang);
-		String capLang = lang.substring(0, 1).toUpperCase() + lang.substring(1).toLowerCase(); 
+		lang = lang.toLowerCase();
 		
 		List<Dev> devList = demoService.selectDevList();
 		List<Dev> resultList = new ArrayList<>();
 		for(Dev dev : devList) {
-			List<String> langList = Arrays.asList(dev.getLang());
-			if(langList.contains(capLang)) {
+			List<String> langList = new ArrayList() {
+				{
+					for(String _lang : dev.getLang()) {
+						add(_lang.toLowerCase());
+					}
+				}
+			};
+			log.debug("{}", langList);
+			if(langList.contains(lang)) {
 				resultList.add(dev);
 			}
 		}
