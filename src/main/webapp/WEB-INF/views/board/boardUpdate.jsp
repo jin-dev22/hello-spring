@@ -19,6 +19,7 @@ div#board-container label.custom-file-label{text-align:left;}
 		action="${pageContext.request.contextPath}/board/boardUpdate.do" 
 		method="post"
 		enctype="multipart/form-data">
+		<input type="hidden" name="no" value="${board.no}" />
 		<input type="text" class="form-control" placeholder="제목" name="title" id="title" value="${board.title}" required>
 		<input type="text" class="form-control" name="memberId" value="${board.memberId}" readonly required>
 		

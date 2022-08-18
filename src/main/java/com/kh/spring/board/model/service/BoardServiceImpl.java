@@ -74,4 +74,25 @@ public class BoardServiceImpl implements BoardService {
 	public Attachment selectOneAttachment(int no) {
 		return boardDao.selectOneAttachment(no);
 	}
+	
+	@Override
+	public int deleteAttachment(int attachNo) {
+		return boardDao.deleteAttachment(attachNo);
+	}
+	
+	@Override
+	public int updateBoard(Board board) {
+		// update board
+		 int result = boardDao.updateBoard(board);
+		
+		//insert attachment
+		List<Attachment> attachments = board.getAttachments();
+		if(attachments != null && !attachments.isEmpty()) {
+			for(Attachment attach : attachments) {
+				result = boardDao.insertAttachment(attach);
+			}
+		}
+		
+		return result;
+	}
 }

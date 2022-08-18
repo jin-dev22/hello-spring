@@ -2,10 +2,12 @@ package com.kh.spring.board.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.spring.board.model.dto.Attachment;
@@ -37,6 +39,12 @@ public interface BoardDao {
 
 	@Select("select * from attachment where no = #{nooooo}")//값이 하나일경우 값 이상하게 적어도 알아서 찾아줌
 	Attachment selectOneAttachment(int no);
+
+	@Delete("delete from attachment where no = #{attachNo}")
+	int deleteAttachment(int attachNo);
+
+	@Update("update board set title = #{title}, content = #{content}, updated_at = sysdate where no = #{no}")
+	int updateBoard(Board board);
 
 	
 }

@@ -159,9 +159,48 @@ public class BoardController {
 	 * - 첨부파일 추가
 	 */
 	@PostMapping("/boardUpdate.do")
-	public String boardUpdate() {
+	public String boardUpdate(Board board, @RequestParam(name ="upFile") List<MultipartFile> upFileList,
+							@RequestParam(name = "delFile", required = false) int[] delFiles,
+							RedirectAttributes redirectAttr) throws IllegalStateException, IOException {
 		
+		String saveDirectory = application.getRealPath("/resources/upload/board");
+		int result = 0;
+		//1. 첨부파일 삭제(a. 서버 저장파일 삭제, b.DB attachment 테이블 행 삭제
+		if(delFiles != null) {
+			for(int attachNo : delFiles) {
+				//a.
+				Attachment attach = boardService.selectOneAttachment(attachNo);
+				File delFile = new File(saveDirectory, attach.getRenamedFilename());
+				boolean isDeleted = delFile.delete();
+				log.debug("{}삭제결과: {}", attach.getRenamedFilename(), isDeleted);
+				// b.
+				result = boardService.deleteAttachment(attachNo);
+				log.debug("{}번 attach 행 삭제", attachNo);
+			}
+		}
 		
-		return "redirect:/board/boardDetail.do";
+		//2. 업로드 파일 등록(서버저장, db 등록할 attachment객체 생성)
+		for(MultipartFile upFile : upFileList) {
+			if(!upFile.isEmpty()) {
+				//a. 서버 컴퓨터에 저장
+				String renamedFilename = HelloSpringUtils.getRenamedFilename(upFile.getOriginalFilename());// 20220816_193012345_123.txt
+				File destFile = new File(saveDirectory, renamedFilename);
+				upFile.transferTo(destFile);//해당 경로에 파일을 저장
+				
+				//b. DB저장을 위해 Attachment객체 생성
+				Attachment attach = new Attachment(upFile.getOriginalFilename(), renamedFilename);
+				attach.setBoardNo(board.getNo());//fk boardNo설정
+				board.add(attach);
+			}
+			
+		}
+		
+		//3. 게시글 수정
+		result = boardService.updateBoard(board);
+		
+		//4. 사용자 안내
+		redirectAttr.addFlashAttribute("msg", "게시글 수정 성공");
+		
+		return "redirect:/board/boardDetail.do?no="+board.getNo();
 	}
 }
