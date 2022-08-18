@@ -205,6 +205,32 @@
 	    </dependency>
 	    <!-- ~#10 -->
 	    
+	    <!-- #12. jsonView의존 -->
+        <dependency>
+	        <groupId>net.sf.json-lib</groupId>
+	        <artifactId>json-lib-ext-spring</artifactId>
+	        <version>1.0.2</version>
+	    </dependency>
+	    <!-- !#12 -->
+	    
+	    <!-- #13. jackson messageConverter빈 관련 의존 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.13.3</version>
+		</dependency>
+		
+		<!-- java.time패키지 클래스를 json변환하기 위한 의존 -->
+		<!-- restApi하면서 추가함 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
+		    <version>2.13.3</version>
+		</dependency>
+		
+	    <!-- ~#13 -->
+	    
+	    
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

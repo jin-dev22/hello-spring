@@ -125,7 +125,7 @@ public class BoardController {
 	 * 
 	 * @ResponseBody: 핸들러의 반환된 자바객체를 응답메세지의 body에 직접 출력해줌
 	 */
-	@GetMapping(path="/fileDownload.do", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@GetMapping(path="/fileDownload.do", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)//142인코딩설정 안먹어서 추가로 produces작성
 	@ResponseBody
 	public Resource fileDownload(@RequestParam int no, HttpServletResponse response) throws IOException {
 		Attachment attach = boardService.selectOneAttachment(no);
@@ -133,13 +133,13 @@ public class BoardController {
 		
 		String saveDirectory = application.getRealPath("/resources/upload/board");
 		File downFile = new File(saveDirectory, attach.getRenamedFilename());
-		String location = "file:" + downFile;//file: 리소스가 어떤 자원을 반환할지 인식하는 프로토콜 File#toString은 파일의 절대경로를 반환
+		String location = "file:" + downFile;//file: 리소스가 어떤 자원을 반환할지 인식하는 프로토콜. File#toString은 파일의 절대경로를 반환
 		Resource resource = resourceLoader.getResource(location);
 		log.debug("resource = {}", resource);
 		log.debug("resource#file = {}", resource.getFile());
 		
 		//응답헤더 작성
-		response.setContentType("application/octet-stream; charset=utf-8");
+		//response.setContentType("application/octet-stream; charset=utf-8");//안됨...
 		String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");//중간에 톰캣에 의해 전송되면서 깨지는거 방지
 		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"");
 		
