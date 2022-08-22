@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html>
@@ -78,9 +79,11 @@
 			    			<sec:authentication property="authorities"/>
 			    		</a>님 안녕하세요🔓
 		    		</span>
-			    	&nbsp;
-	                <button class="btn btn-outline-success my-2 my-sm-0" type="button"
-	                	onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do';">로그아웃</button>
+			    	&nbsp;<!-- 시큐리티 사용하는 로그아웃 요청은 post요청이어야 함 -->
+                	<form action="${pageContext.request.contextPath}/member/memberLogout.do" method="POST">
+		                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">로그아웃</button>
+		                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /><!-- 화면에 div생겨서 정렬 안맞는 거 방지 -->
+                	</form>
 			    </sec:authorize>
 			 </div>
 		</nav>

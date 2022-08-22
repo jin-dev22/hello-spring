@@ -16,6 +16,8 @@
 		<intercept-url pattern="/" access="permitAll"/>
 		<intercept-url pattern="/index.jsp" access="permitAll"/>
 		<intercept-url pattern="/member/memberEnroll.do" access="isAnonymous()"/>
+		<intercept-url pattern="/member/memberLogin.do" access="isAnonymous()"/>
+		<intercept-url pattern="/member/memberLogout.do" access="permitAll"/><!-- 로그인후 세션 만료 된 상태에서도 로그아웃버튼에 접근할 수 있도록 permit으로 설정 -->
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 		
 		<intercept-url pattern="/**" access="isAuthenticated()"/>	
@@ -28,12 +30,22 @@
 			username-parameter : jsp에서 넘어올 변수명 기본값은 username
 			password-parameter : 변수명 기본값은 password
 		 -->
-		<form-login login-page="/member/memeberLogin.do"
+		<form-login login-page="/member/memberLogin.do"
 					login-processing-url="/member/memberLogin.do"
 					default-target-url="/"
 					always-use-default-target="false"
 					username-parameter="memberId"
-					password-parameter="password"/>
+					password-parameter="password"
+					authentication-success-forward-url="/member/memberLoginSuccess.do"/>
+		<logout logout-url="/member/memberLogout.do"
+				logout-success-url="/"/>
+				
+		<!-- Cross-site Request Forgery 공격대비 설정
+			- 사용자의 특정권한을 이용하여 공격자의 의도된 행동을 실행하게 만드는 공격법
+			- 특정 사용자의 권한수정, 등록/수정/삭제
+			- 모든 post요청에 spring이 제공하는 token값 검증하도록 만듦
+		 -->					
+		<csrf disabled="false"/>
 	</http>
 	<authentication-manager>
 		<security:authentication-provider>
