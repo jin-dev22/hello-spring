@@ -2,13 +2,20 @@ package com.kh.spring.demo.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  * POST /dev
  * 
  * PUT /dev
+ * PATCH/dev
  * 
  * DELETE /dev/1
  *
@@ -90,5 +98,41 @@ public class DevRestController {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * @RequestBody : 요청메세지의 json데이터를 MessageConverter에 의해 java객체로 변환 처리후 핸들러에 전달. 
+	 * json만 받을 수 있음
+	 */
+	@PostMapping
+	public ResponseEntity<?> dev(@RequestBody Dev dev){
+		log.debug("dev = {}", dev);
+		int result = demoService.insertDev(dev);
+		Dev savedDev = demoService.selectDevByNo(dev.getNo());
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedDev);
+	}
+	
+	@PutMapping//전체 수정은 put
+	public ResponseEntity<?> updateDev(@RequestBody Dev dev){
+		log.debug("dev = {}", dev);
+		int result = demoService.updateDev(dev);
+		Dev updatedDev = demoService.selectDevByNo(dev.getNo());
+		return ResponseEntity.ok().body(updatedDev);
+	}
+	
+	@PatchMapping//일부 수정은 patch
+	public ResponseEntity<?> updatePartialDev(@RequestBody Dev dev){
+		log.debug("dev = {}", dev);
+		int result = demoService.updatePartialDev(dev);
+		Dev updatedDev = demoService.selectDevByNo(dev.getNo());
+		return ResponseEntity.ok().body(updatedDev);
+	}
+	
+	@DeleteMapping("/{DevNo}")
+	public ResponseEntity<?> deleteDev(@PathVariable int DevNo){
+		int result = demoService.deleteDev(DevNo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", "성공");
+		return ResponseEntity.ok(map);
 	}
 }

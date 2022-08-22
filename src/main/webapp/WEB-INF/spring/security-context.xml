@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.3.xsd">
 
 	<!-- #7.1 암호화처리 bean 등록 -->
-	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
-</beans>
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	
+	<!-- #7.3. 인증/권한 관련 설정 -->
+	<http security="none" pattern="/resources/**"/><!-- resources하위 내용은 인증에서 제외함 -->
+	<!-- intercept-url은 구체적 -> 일반적인 설정 순으로 작성해야 됨 -->
+	<http auto-config="true">
+		<intercept-url pattern="/" access="permitAll"/>
+		<intercept-url pattern="/index.jsp" access="permitAll"/>
+		<intercept-url pattern="/member/memberEnroll.do" access="isAnonymous()"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+		
+		<intercept-url pattern="/**" access="isAuthenticated()"/>	
+	</http>
+	<authentication-manager>
+		<security:authentication-provider>
+			<user-service>
+				<user name="honggd" password="$2a$10$Vo40.zwppnqreJe0nny7quMHyB7gmd8ETaZ0KKf3w8RTSdIvJhbTm" 
+				authorities="ROLE_USER"/>
+				<user name="admin" password="$2a$10$Vo40.zwppnqreJe0nny7quMHyB7gmd8ETaZ0KKf3w8RTSdIvJhbTm" 
+				authorities="ROLE_USER, ROLE_ADMIN"/>
+			</user-service>
+			<password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</authentication-manager>
+	
+</beans:beans>

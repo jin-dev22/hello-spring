@@ -15,5 +15,7 @@ public interface DemoService {
 	int updateDev(Dev dev);
 
 	int deleteDev(int no);
+
+	int updatePartialDev(Dev dev);
 	
 }

@@ -39,4 +39,9 @@ public class DemoDaoImpl implements DemoDao {
 	public int deleteDev(int no) {
 		return sqlSession.delete("demo.deleteDevByNo", no);
 	}
+	
+	@Override
+	public int updatePartialDev(Dev dev) {
+		return sqlSession.update("demo.updatePartialDev", dev);
+	}
 }

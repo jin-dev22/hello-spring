@@ -15,6 +15,10 @@
   		#{lang},
   		default
   	)
+  	<selectKey order="AFTER" resultType="_int" keyProperty="no"><!-- 08/18 restpAPI하면서 추가함 -->
+  		select seq_dev_no.currval
+  		from dual
+  	</selectKey>
   </insert>
   
   <update id="updateDev">
@@ -26,6 +30,30 @@
   		lang = #{lang}
 	where no = #{no}
   </update>
+  
+  <update id="updatePartialDev">
+  	update dev 
+  	<set><!-- set태그는 set구문 마지막의 , 를 제거해줌 -->
+  		<if test="name != null and name != ''">
+		  	name = #{name},
+  		</if>
+  		<if test="career != null and career != ''">
+		  career = #{career},
+  		</if>
+  		<if test="email != null and email != ''">
+		  email = #{email},
+  		</if>
+  		<if test="gender != null and gender != ''">
+		  gender = #{gender},
+  		</if>
+  		<if test="lang != null">
+		  lang = #{lang}
+  		</if>
+  	</set> 
+	where no = #{no}
+  </update>
+  
+  
   
   <delete id="deleteDevByNo">
   	delete from dev where no = #{no}

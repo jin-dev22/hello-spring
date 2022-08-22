@@ -11,9 +11,12 @@
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>
+		<!-- <param-value>
 			/WEB-INF/spring/root-context.xml
 			/WEB-INF/spring/security-context.xml
+		</param-value> -->
+		<param-value>
+				/WEB-INF/spring/*-context.xml 
 		</param-value>
 	</context-param>
 	
@@ -54,6 +57,17 @@
     </filter>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- #7.2 security filter chain등록 08/22 -->
+    <!-- 시큐리티에서 가장 중요한 설정. 시작점이자 핵심 -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 </web-app>
