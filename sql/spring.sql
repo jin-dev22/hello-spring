@@ -204,3 +204,5 @@ from board b
     left outer join attachment a--inner조인으로 하면 첨부파일 없는 행이 빠져버림. inner는 안된다.  
         on b.no = a.board_no
 where b.no = 61;      
+
+select * from member;

@@ -19,6 +19,21 @@
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 		
 		<intercept-url pattern="/**" access="isAuthenticated()"/>	
+		
+		<!-- 
+			login-page : 로그인 폼 요청하는 url, 작성필수
+			login-processing-url : security의 로그인처리 url. 컨트롤러에 작성 불필요
+			default-target-url : 로그인 성공 후 리다이렉트할 url. 기본값 "/" (root)
+			always-use-default-target : 항상 root로 리다이렉트할지 설정. false하면 이전 페이지로 리다이렉트가능
+			username-parameter : jsp에서 넘어올 변수명 기본값은 username
+			password-parameter : 변수명 기본값은 password
+		 -->
+		<form-login login-page="/member/memeberLogin.do"
+					login-processing-url="/member/memberLogin.do"
+					default-target-url="/"
+					always-use-default-target="false"
+					username-parameter="memberId"
+					password-parameter="password"/>
 	</http>
 	<authentication-manager>
 		<security:authentication-provider>

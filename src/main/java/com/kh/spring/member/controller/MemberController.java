@@ -25,7 +25,7 @@ import com.kh.spring.member.model.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
+//@Controller            //시큐리티 사용 하면서 더이상 사용하지 않음.
 @RequestMapping("/member")
 @SessionAttributes({"loginMember"})
 @Slf4j
