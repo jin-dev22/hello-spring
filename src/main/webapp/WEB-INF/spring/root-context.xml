@@ -32,7 +32,7 @@
 	</bean>
 	
 	<!-- #6.3 @Mapper 인터페이스 등록 : Dao구현 객체를 동적으로 생성해줌 -->
-	<mybatis-spring:scan base-package="com.kh.spring.**.dao"/>
+	<mybatis-spring:scan base-package="com.kh.**.dao"/>
 	
 	<!-- #11.1. 트랜잭션 매니저 빈 등록 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

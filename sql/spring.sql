@@ -206,3 +206,25 @@ from board b
 where b.no = 61;      
 
 select * from member;
+
+--security 관련 테이블 작성
+-- authority
+create table authority (
+    member_id varchar2(20),
+    auth varchar2(50),
+    constraint pk_authority primary key(member_id, auth),
+    constraint fk_authority_member_id foreign key(member_id) references member(member_id) on delete cascade
+);
+
+insert into authority values ('abcde', 'ROLE_USER');
+insert into authority values ('qwery', 'ROLE_USER');
+insert into authority values ('admin', 'ROLE_USER');
+insert into authority values ('admin', 'ROLE_ADMIN');
+insert into authority values ('khkhkh', 'ROLE_USER');
+insert into authority values ('honggd', 'ROLE_USER');
+
+select * from authority;
+
+-- 사용자 조회
+select * from member where member_id = 'admin';--1행
+select * from authority where member_id = 'admin';--여러행 나올 수 있음

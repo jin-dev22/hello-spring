@@ -1,3 +1,4 @@
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.List"%>
 <%@page import="com.kh.spring.member.model.dto.Member"%>
@@ -6,6 +7,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="회원정보" name="title"/>
 </jsp:include>
@@ -15,19 +18,23 @@ div#update-container input, div#update-container select {margin-bottom:10px;}
 </style>
 <div id="update-container">
 	<form name="memberUpdateFrm" action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post">
-		<input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="memberId" value="${loginMember.memberId}" readonly required/>
-		<input type="text" class="form-control" placeholder="이름" name="name" id="name" value="${loginMember.name}" required/>
-		<input type="date" class="form-control" placeholder="생일" name="birthday" id="birthday" value="${loginMember.birthday}"/>
-		<input type="email" class="form-control" placeholder="이메일" name="email" id="email" value="${loginMember.email}"/>
-		<input type="tel" class="form-control" placeholder="전화번호 (예:01012345678)" name="phone" id="phone" maxlength="11" value="${loginMember.phone}" required/>
-		<input type="text" class="form-control" placeholder="주소" name="address" id="address" value="${loginMember.address}"/>
+		<input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="memberId" id="memberId" value='<sec:authentication property="principal.memberId"/>' readonly required/>
+		<input type="text" class="form-control" placeholder="이름" name="name" id="name" value='<sec:authentication property="principal.name"/>' required/>
+		<input type="date" class="form-control" placeholder="생일" name="birthday" id="birthday" value='<sec:authentication property="principal.birthday"/>'/>
+		<input type="email" class="form-control" placeholder="이메일" name="email" id="email" value='<sec:authentication property="principal.email"/>'/>
+		<input type="tel" class="form-control" placeholder="전화번호 (예:01012345678)" name="phone" id="phone" maxlength="11" value="'<sec:authentication property="principal.phone"/>'" required/>
+		<input type="text" class="form-control" placeholder="주소" name="address" id="address" value='<sec:authentication property="principal.address"/>'/>
+		
+		<sec:authentication property="principal" var="loginMember" scope="page"/><!-- pageContext에 loginMember로 저장 -->
+		
 		<select class="form-control" name="gender" required>
 		  <option value="" disabled selected>성별</option>
 		  <option value="M" ${loginMember.gender eq 'M' ? 'selected' : '' }>남</option>
 		  <option value="F" ${loginMember.gender eq 'F' ? 'selected' : '' }>여</option>
 		</select>
 		<%
-			Member loginMember = (Member) session.getAttribute("loginMember");	
+			//Member loginMember = (Member) pageContext.getAttribute("loginMember");	
+			Member loginMember = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			String[] hobby = loginMember.getHobby();
 			List<String> hobbyList = hobby != null? Arrays.asList(hobby) : null;
 			pageContext.setAttribute("hobbyList", hobbyList);

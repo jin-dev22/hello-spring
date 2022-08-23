@@ -25,7 +25,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kh.spring" />
+	<context:component-scan base-package="com.kh.spring" /><!-- 설정한 패키지 하위에 있는거 빈으로 등록해줌 -->
 	
 	<!-- #8. interceptor 등록 -->
 	<interceptors>
@@ -33,7 +33,7 @@
 			<mapping path="/**"/>
 			<beans:bean id="logInterceptor" class="com.kh.spring.common.interceptor.LogInterceptor"/>
 		</interceptor>
-		<interceptor>
+		<!-- <interceptor>
 			<mapping path="/member/memberDetail.do"/>
 			<mapping path="/member/memberUpdate.do"/>
 			<mapping path="/board/**"/>
@@ -41,7 +41,7 @@
 			<exclude-mapping path="/board/boardDetail.do" />
 			<exclude-mapping path="/board/fileDownload.do" />
 			<beans:bean id="loginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor"></beans:bean>
-		</interceptor>
+		</interceptor> -->
 	</interceptors>
 	
 	<!-- #9.1. aop관련 어노테이션 등록처리 -->

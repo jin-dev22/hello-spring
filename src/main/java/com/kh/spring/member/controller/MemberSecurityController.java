@@ -1,17 +1,21 @@
 package com.kh.spring.member.controller;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring.member.model.dto.Member;
@@ -83,5 +87,40 @@ public class MemberSecurityController {
 		}
 		log.debug("location = {}",location);
 		return "redirect:" + location;
+	}
+	
+	/**
+	 * security가 관리하는 인증된 사용자 정보
+	 * 
+	 */
+	//@GetMapping("/memberDetail.do")
+	public ModelAndView memberDetail(ModelAndView mav) {
+		//SecurityContextHolder로부터 직접 가져오는 방법
+		SecurityContext securityContext =  SecurityContextHolder.getContext();
+		Authentication authentication = securityContext.getAuthentication();
+		Object principal = authentication.getPrincipal();
+		Object credentials = authentication.getCredentials();
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		log.debug("principal = {}",principal);
+		log.debug("credentials = {}",credentials);
+		log.debug("authorities = {}",authorities);
+		
+		mav.setViewName("member/memberDetail");
+		return mav;
+	}
+	
+	//인증받은 사용자 정보 받아와서 확인
+	@GetMapping("/memberDetail.do")
+	public ModelAndView memberDetail(Authentication authentication, ModelAndView mav) {
+		//
+		Object principal = authentication.getPrincipal();
+		Object credentials = authentication.getCredentials();
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		log.debug("principal = {}",principal);
+		log.debug("credentials = {}",credentials);
+		log.debug("authorities = {}",authorities);
+		
+		mav.setViewName("member/memberDetail");
+		return mav;
 	}
 }
