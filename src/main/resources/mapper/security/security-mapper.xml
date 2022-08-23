@@ -3,10 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.security.model.dao.MemberSecurityDao">
-  <select id="loadUserByUsername" resultMap="memberAuthMap">
-  	select * 
-  	from member
-  	where member_id = #{username}
+   <select id="loadUserByUsername" resultMap="memberAuthMap">
+  	select 
+  		*
+  	from
+  		member
+  	where
+  		member_id = #{username}
   </select>
   <resultMap type="member" id="memberAuthMap">
   	<id column="member_id" property="memberId"/>

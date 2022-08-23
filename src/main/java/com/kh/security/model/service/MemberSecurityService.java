@@ -24,9 +24,9 @@ public class MemberSecurityService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Member member = memberSecurityDao.loadUserByUsername(username);
-		if(member == null) {
+		if(member == null)
 			throw new UsernameNotFoundException(username);
-		}
+		
 		log.info("member = {}", member);
 		return member;
 	}
